@@ -79,7 +79,7 @@ namespace PizzeriaPos.WinForms.Forms
             chkDisponible.Checked = true;
 
             // Botones
-            btnNuevo.Text = "Nuevo";
+            btnNuevo.Text = "Limpiar";
             btnNuevo.Location = new Point(10, 270);
             btnNuevo.Size = new Size(80, 30);
             btnNuevo.BackColor = Color.FromArgb(30, 100, 200);
