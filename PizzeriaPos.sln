@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PizzeriaPos.Tests", "Pizzer
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PizzeriaPos.Api", "PizzeriaPos.Api\PizzeriaPos.Api.csproj", "{5DD66785-8E29-476B-ACA1-44F21429DD47}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PizzeriaPos.WinForms", "PizzeriaPos.WinForms\PizzeriaPos.WinForms.csproj", "{BF17CA02-F0F1-4E72-80EB-824073DE9B3D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -36,5 +38,9 @@ Global
 		{5DD66785-8E29-476B-ACA1-44F21429DD47}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5DD66785-8E29-476B-ACA1-44F21429DD47}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5DD66785-8E29-476B-ACA1-44F21429DD47}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BF17CA02-F0F1-4E72-80EB-824073DE9B3D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BF17CA02-F0F1-4E72-80EB-824073DE9B3D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BF17CA02-F0F1-4E72-80EB-824073DE9B3D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BF17CA02-F0F1-4E72-80EB-824073DE9B3D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
