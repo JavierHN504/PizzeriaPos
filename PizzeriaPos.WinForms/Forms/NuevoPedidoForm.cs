@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using PizzeriaPos.WinForms.Services;
+using PizzeriaPos.WinForms.Models;
 
 namespace PizzeriaPos.WinForms.Forms
 {
@@ -28,8 +29,8 @@ namespace PizzeriaPos.WinForms.Forms
         private Button btnCrearPedido = new();
         private Button btnCancelar = new();
         private readonly ApiService _api = new();
-        private List<dynamic> _clientes = new();
-        private List<dynamic> _productos = new();
+        private List<ClienteModel> _clientes = new();
+        private List<ProductoModel> _productos = new();
         private List<(int ProductoId, string Nombre, int Cantidad, decimal Precio)> _detalles = new();
         private decimal _total = 0;
 
@@ -128,21 +129,21 @@ namespace PizzeriaPos.WinForms.Forms
         {
             try
             {
-                _clientes = await _api.GetAsync<List<dynamic>>("Cliente") ?? new();
-                _productos = await _api.GetAsync<List<dynamic>>("Producto") ?? new();
+                _clientes = await _api.GetAsync<List<ClienteModel>>("Cliente") ?? new();
+                _productos = await _api.GetAsync<List<ProductoModel>>("Producto") ?? new();
 
                 cmbCliente.DataSource = _clientes.Select(c => new
                 {
-                    Id = (int)c.id,
-                    Nombre = $"{c.nombre} {c.apellido}"
+                    c.Id,
+                    Nombre = $"{c.Nombre} {c.Apellido}"
                 }).ToList();
                 cmbCliente.DisplayMember = "Nombre";
                 cmbCliente.ValueMember = "Id";
 
                 cmbProducto.DataSource = _productos.Select(p => new
                 {
-                    Id = (int)p.id,
-                    Nombre = $"{p.nombre} - L.{p.precio}"
+                    p.Id,
+                    Nombre = $"{p.Nombre} - L.{p.Precio}"
                 }).ToList();
                 cmbProducto.DisplayMember = "Nombre";
                 cmbProducto.ValueMember = "Id";
@@ -164,14 +165,11 @@ namespace PizzeriaPos.WinForms.Forms
             }
 
             var productoId = (int)cmbProducto.SelectedValue;
-            var producto = _productos.FirstOrDefault(p => (int)p.id == productoId);
+            var producto = _productos.FirstOrDefault(p => p.Id == productoId);
             if (producto == null) return;
 
-            var precio = (decimal)producto.precio;
-            var nombre = (string)producto.nombre;
-
-            _detalles.Add((productoId, nombre, cantidad, precio));
-            _total += cantidad * precio;
+            _detalles.Add((productoId, producto.Nombre, cantidad, producto.Precio));
+            _total += cantidad * producto.Precio;
 
             ActualizarGrilllaDetalle();
         }

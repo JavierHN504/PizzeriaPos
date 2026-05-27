@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using PizzeriaPos.WinForms.Services;
+using PizzeriaPos.WinForms.Models;
 
 namespace PizzeriaPos.WinForms.Forms
 {
@@ -99,20 +100,20 @@ namespace PizzeriaPos.WinForms.Forms
         {
             try
             {
-                var pedidos = await _api.GetAsync<List<dynamic>>("Pedido");
+                var pedidos = await _api.GetAsync<List<PedidoCabeceraModel>>("Pedido");
                 dgvPedidos.DataSource = null;
                 dgvDetalle.DataSource = null;
                 lblInfoPedido.Text = "Seleccione un pedido para ver su detalle:";
 
-                if (pedidos != null)
+                if (pedidos != null && pedidos.Count > 0)
                 {
                     var tabla = pedidos.Select(p => new
                     {
-                        Id = (int)p.id,
-                        Cliente = p.cliente != null ? $"{p.cliente.nombre} {p.cliente.apellido}" : "N/A",
-                        Estado = (string)p.estado,
-                        Total = (decimal)p.total,
-                        Fecha = DateTime.Parse(p.createdAt.ToString()).ToString("dd/MM/yyyy HH:mm")
+                        p.Id,
+                        Cliente = p.Cliente != null ? $"{p.Cliente.Nombre} {p.Cliente.Apellido}" : "N/A",
+                        p.Estado,
+                        p.Total,
+                        Fecha = p.CreatedAt.ToString("dd/MM/yyyy HH:mm")
                     }).ToList();
 
                     dgvPedidos.DataSource = tabla;
@@ -133,24 +134,22 @@ namespace PizzeriaPos.WinForms.Forms
 
             try
             {
-                var pedido = await _api.GetAsync<dynamic>($"Pedido/{id}");
+                var pedido = await _api.GetAsync<PedidoCabeceraModel>($"Pedido/{id}");
                 if (pedido == null) return;
 
-                string cliente = pedido.cliente != null ? $"{pedido.cliente.nombre} {pedido.cliente.apellido}" : "N/A";
-                lblInfoPedido.Text = $"Pedido #{id} — Cliente: {cliente} — Estado: {pedido.estado} — Total: L. {pedido.total}";
+                string cliente = pedido.Cliente != null ? $"{pedido.Cliente.Nombre} {pedido.Cliente.Apellido}" : "N/A";
+                lblInfoPedido.Text = $"Pedido #{id} — Cliente: {cliente} — Estado: {pedido.Estado} — Total: L. {pedido.Total}";
 
-                // Cargar detalles del pedido
                 dgvDetalle.DataSource = null;
-                var detalles = pedido.detalles as IEnumerable<dynamic>;
 
-                if (detalles != null)
+                if (pedido.Detalles != null && pedido.Detalles.Count > 0)
                 {
-                    var tablaDetalle = detalles.Select(d => new
+                    var tablaDetalle = pedido.Detalles.Select(d => new
                     {
-                        Producto = d.producto != null ? (string)d.producto.nombre : "N/A",
-                        Cantidad = (int)d.cantidad,
-                        PrecioUnitario = (decimal)d.precioUnitario,
-                        Subtotal = (int)d.cantidad * (decimal)d.precioUnitario
+                        Producto = d.Producto != null ? d.Producto.Nombre : "N/A",
+                        d.Cantidad,
+                        d.PrecioUnitario,
+                        Subtotal = d.Cantidad * d.PrecioUnitario
                     }).ToList();
 
                     dgvDetalle.DataSource = tablaDetalle;

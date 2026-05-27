@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using PizzeriaPos.WinForms.Services;
+using PizzeriaPos.WinForms.Models;
 
 namespace PizzeriaPos.WinForms.Forms
 {
@@ -124,18 +125,18 @@ namespace PizzeriaPos.WinForms.Forms
         {
             try
             {
-                var clientes = await _api.GetAsync<List<dynamic>>("Cliente");
+                var clientes = await _api.GetAsync<List<ClienteModel>>("Cliente");
                 dgvClientes.DataSource = null;
 
-                if (clientes != null)
+                if (clientes != null && clientes.Count > 0)
                 {
                     var tabla = clientes.Select(c => new
                     {
-                        Id = (int)c.id,
-                        Nombre = (string)c.nombre,
-                        Apellido = c.apellido?.ToString() ?? "",
-                        Telefono = c.telefono?.ToString() ?? "",
-                        Email = c.email?.ToString() ?? ""
+                        c.Id,
+                        c.Nombre,
+                        Apellido = c.Apellido ?? "",
+                        Telefono = c.Telefono ?? "",
+                        Email = c.Email ?? ""
                     }).ToList();
 
                     dgvClientes.DataSource = tabla;
@@ -156,13 +157,13 @@ namespace PizzeriaPos.WinForms.Forms
 
             try
             {
-                var cliente = await _api.GetAsync<dynamic>($"Cliente/{id}");
+                var cliente = await _api.GetAsync<ClienteModel>($"Cliente/{id}");
                 if (cliente != null)
                 {
-                    txtNombre.Text = cliente.nombre.ToString();
-                    txtApellido.Text = cliente.apellido?.ToString() ?? "";
-                    txtTelefono.Text = cliente.telefono?.ToString() ?? "";
-                    txtEmail.Text = cliente.email?.ToString() ?? "";
+                    txtNombre.Text = cliente.Nombre;
+                    txtApellido.Text = cliente.Apellido ?? "";
+                    txtTelefono.Text = cliente.Telefono ?? "";
+                    txtEmail.Text = cliente.Email ?? "";
                 }
             }
             catch { }

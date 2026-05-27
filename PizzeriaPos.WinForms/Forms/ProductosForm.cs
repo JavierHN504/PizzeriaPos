@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using PizzeriaPos.WinForms.Services;
+using PizzeriaPos.WinForms.Models;
 
 namespace PizzeriaPos.WinForms.Forms
 {
@@ -136,18 +137,18 @@ namespace PizzeriaPos.WinForms.Forms
         {
             try
             {
-                var productos = await _api.GetAsync<List<dynamic>>("Producto");
+                var productos = await _api.GetAsync<List<ProductoModel>>("Producto");
                 dgvProductos.DataSource = null;
 
-                if (productos != null)
+                if (productos != null && productos.Count > 0)
                 {
                     var tabla = productos.Select(p => new
                     {
-                        Id = (int)p.id,
-                        Nombre = (string)p.nombre,
-                        Precio = (decimal)p.precio,
-                        Categoria = (string)p.categoria,
-                        Disponible = (bool)p.disponible
+                        p.Id,
+                        p.Nombre,
+                        p.Precio,
+                        p.Categoria,
+                        p.Disponible
                     }).ToList();
 
                     dgvProductos.DataSource = tabla;
@@ -169,14 +170,14 @@ namespace PizzeriaPos.WinForms.Forms
 
             try
             {
-                var producto = await _api.GetAsync<dynamic>($"Producto/{id}");
+                var producto = await _api.GetAsync<ProductoModel>($"Producto/{id}");
                 if (producto != null)
                 {
-                    txtNombre.Text = producto.nombre.ToString();
-                    txtDescripcion.Text = producto.descripcion?.ToString() ?? "";
-                    txtPrecio.Text = producto.precio.ToString();
-                    txtCategoria.Text = producto.categoria.ToString();
-                    chkDisponible.Checked = (bool)producto.disponible;
+                    txtNombre.Text = producto.Nombre;
+                    txtDescripcion.Text = producto.Descripcion ?? "";
+                    txtPrecio.Text = producto.Precio.ToString();
+                    txtCategoria.Text = producto.Categoria;
+                    chkDisponible.Checked = producto.Disponible;
                 }
             }
             catch { }
