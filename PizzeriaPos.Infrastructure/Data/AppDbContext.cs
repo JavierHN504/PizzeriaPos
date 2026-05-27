@@ -22,6 +22,7 @@ namespace PizzeriaPos.Infrastructure.Data
         public DbSet<Direccion> Direcciones { get; set; }
         public DbSet<PedidoCabecera> PedidosCabecera { get; set; }
         public DbSet<PedidoDetalle> PedidosDetalle { get; set; }
+        public DbSet<Usuario> Usuarios { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -33,6 +34,7 @@ namespace PizzeriaPos.Infrastructure.Data
             modelBuilder.Entity<Direccion>().HasQueryFilter(d => !d.Deleted);
             modelBuilder.Entity<PedidoCabecera>().HasQueryFilter(p => !p.Deleted);
             modelBuilder.Entity<PedidoDetalle>().HasQueryFilter(p => !p.Deleted);
+            modelBuilder.Entity<Usuario>().HasQueryFilter(u => !u.Deleted);
 
             // Subtotal es una propiedad calculada en memoria
             modelBuilder.Entity<PedidoDetalle>()
