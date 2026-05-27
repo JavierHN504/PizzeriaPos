@@ -41,8 +41,10 @@ namespace PizzeriaPos.WinForms.Services
             if (!response.IsSuccessStatusCode)
                 return default;
 
-            var result = JsonConvert.DeserializeObject<ApiResult<T>>(content);
-            return result != null ? result.Data : default;
+            // La API devuelve { success, message, data }
+            // Necesitamos extraer solo el campo "data"
+            var wrapper = JsonConvert.DeserializeObject<ApiResult<T>>(content);
+            return wrapper != null ? wrapper.Data : default;
         }
 
         // Peticion POST — crear datos
