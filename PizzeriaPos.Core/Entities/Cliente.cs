@@ -8,26 +8,26 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace PizzeriaPos.Core.Entities
 {
+    // Representa un cliente de la pizzeria. Tabla: Clientes
     [Table("Clientes")]
     public class Cliente : BaseEntity
     {
         [Required]
         [MaxLength(100)]
-        public string Nombre { get; set; } = string.Empty;
+        public string Nombre { get; set; } = string.Empty; // Nombre del cliente (obligatorio)
 
         [MaxLength(100)]
-        public string? Apellido { get; set; }
+        public string? Apellido { get; set; } // Apellido (opcional)
 
         [MaxLength(15)]
-        public string? Telefono { get; set; }
+        public string? Telefono { get; set; } // Telefono de contacto (opcional)
 
         [MaxLength(150)]
-        public string? Email { get; set; }
+        public string? Email { get; set; } // Correo electronico (opcional)
 
-        // Relacion: un cliente tiene muchas direcciones
+        // Un cliente puede tener muchas direcciones de entrega
         public ICollection<Direccion> Direcciones { get; set; } = new List<Direccion>();
-
-        // Relacion: un cliente tiene muchos pedidos
+        // Un cliente puede tener muchos pedidos
         public ICollection<PedidoCabecera> Pedidos { get; set; } = new List<PedidoCabecera>();
     }
 }

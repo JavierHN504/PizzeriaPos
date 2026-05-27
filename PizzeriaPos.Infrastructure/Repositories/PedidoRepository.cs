@@ -10,25 +10,28 @@ using PizzeriaPos.Infrastructure.Data;
 
 namespace PizzeriaPos.Infrastructure.Repositories
 {
+    // Maneja pedidos completos: cabecera + detalles + productos relacionados.
     public class PedidoRepository : IPedidoRepository
     {
-        private readonly AppDbContext _context;
+        private readonly AppDbContext _context; // Contexto de base de datos inyectado
 
         public PedidoRepository(AppDbContext context)
         {
             _context = context;
         }
 
+        // Obtiene todos los pedidos activos con cliente, direccion y detalles de productos
         public async Task<List<PedidoCabecera>> GetAllAsync()
         {
             return await _context.PedidosCabecera
                 .Include(p => p.Cliente)
                 .Include(p => p.Direccion)
                 .Include(p => p.Detalles)
-                    .ThenInclude(d => d.Producto)
+                    .ThenInclude(d => d.Producto) // Carga el producto dentro de cada detalle
                 .ToListAsync();
         }
 
+        // Obtiene un pedido por ID con todos sus datos relacionados
         public async Task<PedidoCabecera?> GetByIdAsync(int id)
         {
             return await _context.PedidosCabecera
@@ -39,6 +42,7 @@ namespace PizzeriaPos.Infrastructure.Repositories
                 .FirstOrDefaultAsync(p => p.Id == id);
         }
 
+        // Obtiene todos los pedidos de un cliente especifico
         public async Task<List<PedidoCabecera>> GetByClienteIdAsync(int clienteId)
         {
             return await _context.PedidosCabecera
@@ -49,6 +53,7 @@ namespace PizzeriaPos.Infrastructure.Repositories
                 .ToListAsync();
         }
 
+        // Registra un nuevo pedido con sus detalles en la base de datos
         public async Task<PedidoCabecera> AddAsync(PedidoCabecera pedido)
         {
             pedido.CreatedAt = DateTime.Now;
@@ -57,6 +62,7 @@ namespace PizzeriaPos.Infrastructure.Repositories
             return pedido;
         }
 
+        // Actualiza el estado u otros datos de un pedido existente
         public async Task<PedidoCabecera> UpdateAsync(PedidoCabecera pedido)
         {
             pedido.UpdatedAt = DateTime.Now;
@@ -65,6 +71,7 @@ namespace PizzeriaPos.Infrastructure.Repositories
             return pedido;
         }
 
+        // Soft delete: marca el pedido como eliminado sin borrarlo fisicamente
         public async Task<bool> DeleteAsync(int id)
         {
             PedidoCabecera? pedido = await GetByIdAsync(id);
