@@ -82,7 +82,7 @@ namespace PizzeriaPos.WinForms.Forms
             btnNuevo.Text = "Nuevo";
             btnNuevo.Location = new Point(10, 270);
             btnNuevo.Size = new Size(80, 30);
-            btnNuevo.BackColor = Color.Gray;
+            btnNuevo.BackColor = Color.FromArgb(30, 100, 200);
             btnNuevo.ForeColor = Color.White;
             btnNuevo.FlatStyle = FlatStyle.Flat;
             btnNuevo.Click += (s, e) => LimpiarFormulario();
@@ -90,7 +90,7 @@ namespace PizzeriaPos.WinForms.Forms
             btnGuardar.Text = "Guardar";
             btnGuardar.Location = new Point(100, 270);
             btnGuardar.Size = new Size(80, 30);
-            btnGuardar.BackColor = Color.OrangeRed;
+            btnGuardar.BackColor = Color.FromArgb(40, 167, 69);
             btnGuardar.ForeColor = Color.White;
             btnGuardar.FlatStyle = FlatStyle.Flat;
             btnGuardar.Click += BtnGuardar_Click;
@@ -98,7 +98,7 @@ namespace PizzeriaPos.WinForms.Forms
             btnEliminar.Text = "Eliminar";
             btnEliminar.Location = new Point(190, 270);
             btnEliminar.Size = new Size(80, 30);
-            btnEliminar.BackColor = Color.DarkRed;
+            btnEliminar.BackColor = Color.OrangeRed;
             btnEliminar.ForeColor = Color.White;
             btnEliminar.FlatStyle = FlatStyle.Flat;
             btnEliminar.Click += BtnEliminar_Click;

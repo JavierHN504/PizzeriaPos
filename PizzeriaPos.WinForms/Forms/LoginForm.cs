@@ -114,6 +114,8 @@ namespace PizzeriaPos.WinForms.Forms
                 lblPassword, txtPassword,
                 btnLogin, btnRegistrar, panelRegistro
             });
+
+            this.Icon = new Icon(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Resources", "pizza.ico"));
         }
 
         // Accion del boton Login

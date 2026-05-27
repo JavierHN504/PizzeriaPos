@@ -75,6 +75,8 @@ namespace PizzeriaPos.WinForms.Forms
             pedidosForm.Show();
 
             this.Controls.AddRange(new Control[] { lblBienvenida, btnCerrarSesion, tabControl });
+            // Icono de la aplicacion en la ventana y barra de tareas
+            this.Icon = new Icon(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Resources", "pizza.ico"));
         }
 
         // Cerrar sesion: volver al login
